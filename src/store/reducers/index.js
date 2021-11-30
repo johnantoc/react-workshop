@@ -1,6 +1,7 @@
 import { combineReducers } from "redux";
 
-import headerReducer from './headerReducer';
+import headerReducer from "./headerReducer";
+import imagesDataReducer from "./imagesDataReducer";
 
 /**
  * @description - Root reducer.
@@ -9,6 +10,7 @@ import headerReducer from './headerReducer';
  */
 const rootReducer = combineReducers({
   header: headerReducer,
+  imagesData: imagesDataReducer,
 });
 
 export default rootReducer;

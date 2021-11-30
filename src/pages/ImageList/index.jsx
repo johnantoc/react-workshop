@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { updateHeader } from "../../store/actions";
+import { updateHeader, updateImagesData } from "../../store/actions";
 import { API } from "../../utils/config";
 import GridItem from "../../components/GridItem";
 
@@ -28,15 +28,16 @@ function ImageList() {
       if (hasMore) {
         const response = await fetch(API.DATASRC + `/page${pageNum}.json`);
         const data = await response.json();
-        const curList = data?.page["content-items"]?.content || [];
-        const updatedList = [...imgList, ...curList];
 
         dispatch(updateHeader({ title: data?.page?.title || "" }));
-        if (
-          parseInt(data?.page["total-content-items"], 10) === updatedList.length
-        ) {
-          setHasMore(false);
-        }
+        dispatch(updateImagesData(data));
+
+        const curList = data?.page["content-items"]?.content || [];
+        const updatedList = [...imgList, ...curList];
+        const allLoaded =
+          parseInt(data?.page["total-content-items"], 10) ===
+          updatedList.length;
+        if (allLoaded) setHasMore(false);
         setImgList(updatedList);
       }
     })();
