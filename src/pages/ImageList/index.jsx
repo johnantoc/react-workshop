@@ -14,9 +14,10 @@ function ImageList() {
   const scrollRef = useRef();
   const dispatch = useDispatch();
   const [pageNum, setPageNum] = useState(1);
+  const [masterList, setMasterList] = useState([]);
   const [imgList, setImgList] = useState([]);
   const [hasMore, setHasMore] = useState(true);
-  const headerData = useSelector((state) => state.header);
+  const { header, imagesData, filter } = useSelector((state) => state);
 
   useEffect(() => {
     /**
@@ -31,17 +32,31 @@ function ImageList() {
 
         dispatch(updateHeader({ title: data?.page?.title || "" }));
         dispatch(updateImagesData(data));
-
-        const curList = data?.page["content-items"]?.content || [];
-        const updatedList = [...imgList, ...curList];
-        const allLoaded =
-          parseInt(data?.page["total-content-items"], 10) ===
-          updatedList.length;
-        if (allLoaded) setHasMore(false);
-        setImgList(updatedList);
       }
     })();
   }, [pageNum]);
+
+  useEffect(() => {
+    if (imagesData) {
+      const curList = imagesData?.page["content-items"]?.content || [];
+      const updatedList = [...imgList, ...curList];
+      const allLoaded =
+        parseInt(imagesData?.page["total-content-items"], 10) ===
+        updatedList.length;
+      if (allLoaded) setHasMore(false);
+      setMasterList(updatedList);
+      setImgList(updatedList);
+    }
+  }, [imagesData]);
+
+  useEffect(() => {
+    if (filter.searchKey) {
+      const updatedList = masterList.filter(({ name }) =>
+        name.toLowerCase().includes(filter.searchKey.toLowerCase())
+      );
+      setImgList(updatedList);
+    } else setImgList([...masterList]);
+  }, [filter]);
 
   /**
    * @description - Scroll Handler.
@@ -51,13 +66,13 @@ function ImageList() {
   function handleScroll() {
     const { scrollTop, clientHeight } = scrollRef.current;
     const bottom = scrollTop >= (clientHeight * 3 * pageNum) / 4;
-    if (scrollTop > 0 && !headerData.sticky)
+    if (scrollTop > 0 && !header.sticky)
       dispatch(updateHeader({ sticky: true }));
     if (bottom) setPageNum((pageNum) => pageNum + 1);
   }
 
   /**
-   * @description - LoadMore Button in case scroll event didn't fire.
+   * @description - LoadMore Button in case no overflow.
    *
    *  @returns {null} - Returns null.
    */
@@ -68,7 +83,7 @@ function ImageList() {
 
   return (
     <div
-      className="bg-black w-full h-full overflow-y-scroll pb-24"
+      className="bg-black w-full h-full overflow-y-auto pb-24"
       ref={scrollRef}
       onScroll={handleScroll}
     >

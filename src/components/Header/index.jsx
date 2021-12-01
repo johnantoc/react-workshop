@@ -1,15 +1,31 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import PropTypes from "prop-types";
 
-import { API } from "../../utils/config";
+import ImgIcon from "../ImgIcon";
+import SearchInput from "../SearchInput";
+import { filterGrid } from "../../store/actions";
 
 /**
  * @description - Header Component.
  * @returns {Node} - Header View Component
  */
 function Header() {
+  const dispatch = useDispatch();
   const headerData = useSelector((state) => state.header);
+  const [showSearchInput, setShowSearchInput] = useState(false);
+
+  function onClickHandler() {
+    setShowSearchInput(true);
+  }
+
+  function onOutOfFocus() {
+    setShowSearchInput(false);
+  }
+
+  function filterImageList(key) {
+    dispatch(filterGrid(key));
+  }
 
   return (
     <div
@@ -17,27 +33,34 @@ function Header() {
         headerData.sticky ? "sticky top-0 z-10" : "absolute"
       } justify-center items-center space-x-4 p-4 bg-gradient-to-b from-black via-black w-full h-header-height`}
     >
-      {headerData.backButton ? (
-        <div className="flex-initial">
-          <img
-            src={`${API.IMGSRC}/Back.png`}
-            alt="back icon"
-            className="w-5 transition duration-500 ease-in-out transform hover:scale-110"
-          />
-        </div>
-      ) : null}
-      <div className="flex-auto text-left text-white align-middle text-lg font-semibold">
+      <div className="flex-initial flex-shrink-0">
+        {headerData.backButton ? <ImgIcon img="Back.png" /> : null}
+      </div>
+      <div className="flex-auto flex-shrink-0 text-left text-white whitespace-nowrap align-middle text-lg font-semibold">
         {headerData.title}
       </div>
-      {headerData.searchEnabled ? (
-        <div className="flex-initial">
-          <img
-            src={`${API.IMGSRC}/search.png`}
-            alt="search icon"
-            className="w-5 transition duration-500 ease-in-out transform hover:scale-110"
+      <div
+        className="flex flex-row flex-initial justify-item-end"
+        onClick={onClickHandler}
+      >
+        <div
+          className={`${
+            headerData.searchEnabled && !showSearchInput ? "" : "hidden"
+          }`}
+        >
+          <ImgIcon img="search.png" />
+        </div>
+        <div
+          className={`${
+            headerData.searchEnabled && !showSearchInput ? "hidden" : ""
+          }`}
+        >
+          <SearchInput
+            focusOut={onOutOfFocus}
+            searchKeyHandler={filterImageList}
           />
         </div>
-      ) : null}
+      </div>
     </div>
   );
 }

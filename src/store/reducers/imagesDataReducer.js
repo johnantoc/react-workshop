@@ -1,6 +1,6 @@
 import { IMAGESDATA } from "../actions/actionTypes";
 
-const initialState = {};
+const initialState = null;
 
 const imagesListReducer = (state = initialState, { type, payload }) => {
   switch (type) {

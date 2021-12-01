@@ -1,7 +1,11 @@
 export const HEADER = {
-  UPDATE: "UPDATE",
+  UPDATE: "HEADER_UPDATE",
 };
 
 export const IMAGESDATA = {
-  UPDATE: "UPDATE",
+  UPDATE: "IMAGESDATA_UPDATE",
+};
+
+export const GRIDFILTER = {
+  FILTER: "GRIDFILTER",
 };
