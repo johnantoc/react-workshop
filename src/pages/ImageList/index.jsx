@@ -16,7 +16,7 @@ function ImageList() {
   const [pageNum, setPageNum] = useState(1);
   const [masterList, setMasterList] = useState([]);
   const [imgList, setImgList] = useState([]);
-  const [hasMore, setHasMore] = useState(false);
+  const [hasMore, setHasMore] = useState(true);
   const { header, imagesData, filter } = useSelector((state) => state);
 
   useEffect(() => {
@@ -97,7 +97,7 @@ function ImageList() {
           );
         })}
       </div>
-      {hasMore ? (
+      {imgList.length && hasMore ? (
         <div className="hidden md:flex md:flex-row md:justify-center md:item-center md:mb-4">
           <button
             onClick={loadMore}
