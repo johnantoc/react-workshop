@@ -36,7 +36,9 @@ function Header() {
       } justify-center items-center space-x-4 p-4 bg-gradient-to-b from-black via-black w-full h-header-height`}
     >
       <div className="flex-initial flex-shrink-0">
-        {headerData.backButton ? <ImgIcon img="Back.png" /> : null}
+        {headerData.backButton ? (
+          <ImgIcon img="Back.png" alt="back icon" />
+        ) : null}
       </div>
       <div className="flex-auto flex-shrink-0 text-left text-white whitespace-nowrap align-middle text-lg font-semibold">
         {headerData.title}
@@ -50,8 +52,10 @@ function Header() {
             headerData.searchEnabled && !showSearchInput ? "" : "hidden"
           } flex flex-row flex-initial justify-end items-end space-x-2`}
         >
-          <span className="w-36 text-white whitespace-nowrap overflow-hidden overflow-ellipsis">{filterKey}</span>
-          <ImgIcon img="search.png" />
+          <span className="w-36 text-white whitespace-nowrap overflow-hidden overflow-ellipsis">
+            {filterKey}
+          </span>
+          <ImgIcon img="search.png" alt="search icon" />
         </div>
         <div
           className={`${

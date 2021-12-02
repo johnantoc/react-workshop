@@ -20,6 +20,7 @@ function SearchInput({ focusOut, searchKeyHandler }) {
 
   return (
     <input
+      placeholder="search"
       value={searchKey}
       onChange={handleInputChange}
       onBlur={focusOut}

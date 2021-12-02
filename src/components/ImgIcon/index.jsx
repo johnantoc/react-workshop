@@ -8,11 +8,11 @@ import { API } from "../../utils/config";
  * @param {string} img - Image String.
  * @returns {Node} - Returns the image icon view.
  */
-function ImgIcon({ img }) {
+function ImgIcon({ img, alt }) {
   return (
     <img
       src={`${API.IMGSRC}/${img}`}
-      alt="back icon"
+      alt={alt}
       className="w-5 h-5 transition duration-500 ease-in-out transform hover:scale-110"
     />
   );
@@ -20,10 +20,12 @@ function ImgIcon({ img }) {
 
 ImgIcon.defaultProps = {
   img: "",
+  alt: "",
 };
 
 ImgIcon.propTypes = {
   img: PropTypes.string,
+  alt: PropTypes.string,
 };
 
 export default ImgIcon;
