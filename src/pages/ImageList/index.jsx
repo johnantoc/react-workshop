@@ -16,7 +16,7 @@ function ImageList() {
   const [pageNum, setPageNum] = useState(1);
   const [masterList, setMasterList] = useState([]);
   const [imgList, setImgList] = useState([]);
-  const [hasMore, setHasMore] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
   const { header, imagesData, filter } = useSelector((state) => state);
 
   useEffect(() => {
