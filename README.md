@@ -6,9 +6,7 @@ A image listing app.
 
 ## Features
 
-- Declarative Routing
 - Functional Components
-- Error Boundary Implemented
 - Testcases with code coverage html report page generation.
 
 ## Dependencies
