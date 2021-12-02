@@ -13,7 +13,7 @@ function ImgIcon({ img }) {
     <img
       src={`${API.IMGSRC}/${img}`}
       alt="back icon"
-      className="w-5 transition duration-500 ease-in-out transform hover:scale-110"
+      className="w-5 h-5 transition duration-500 ease-in-out transform hover:scale-110"
     />
   );
 }

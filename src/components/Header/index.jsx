@@ -12,6 +12,7 @@ import { filterGrid } from "../../store/actions";
  */
 function Header() {
   const dispatch = useDispatch();
+  const [filterKey, setfilterKey] = useState("");
   const headerData = useSelector((state) => state.header);
   const [showSearchInput, setShowSearchInput] = useState(false);
 
@@ -24,6 +25,7 @@ function Header() {
   }
 
   function filterImageList(key) {
+    setfilterKey(key);
     dispatch(filterGrid(key));
   }
 
@@ -40,20 +42,21 @@ function Header() {
         {headerData.title}
       </div>
       <div
-        className="flex flex-row flex-initial justify-item-end"
+        className="flex flex-row flex-initial justify-end"
         onClick={onClickHandler}
       >
         <div
           className={`${
             headerData.searchEnabled && !showSearchInput ? "" : "hidden"
-          }`}
+          } flex flex-row flex-initial justify-end items-end space-x-2`}
         >
+          <span className="w-36 text-white whitespace-nowrap overflow-hidden overflow-ellipsis">{filterKey}</span>
           <ImgIcon img="search.png" />
         </div>
         <div
           className={`${
             headerData.searchEnabled && !showSearchInput ? "hidden" : ""
-          }`}
+          } flex flex-initial justify-end items-end`}
         >
           <SearchInput
             focusOut={onOutOfFocus}
